@@ -30,7 +30,7 @@ Make sure 'Enable Bridge Settings' and 'Bridge Fan Speed' are enabled in Cura's
 # Known limitations
 
 - It can be more generic :-)
-- Does not support relative moves
+- Does not support arc moves (G2/G3)
 
 # Copyright and License
 

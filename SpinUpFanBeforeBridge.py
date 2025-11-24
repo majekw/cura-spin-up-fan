@@ -76,6 +76,7 @@ class SpinUpFanBeforeBridge(Script):
         current_y = 0.0
         current_f = 3000.0  # Default feedrate (mm/min) if none found early
         total_time = 0.0
+        is_relative = False # Default to absolute positioning
 
         # The Sliding Window
         # Stores tuples: (timestamp, layer_index, line_index)
@@ -92,7 +93,12 @@ class SpinUpFanBeforeBridge(Script):
 
         for layer_idx, lines in enumerate(layers_lines):
             for line_idx, line in enumerate(lines):
-                
+                # Check for coordinate system changes
+                if "G90" in line:
+                    is_relative = False
+                if "G91" in line:
+                    is_relative = True
+
                 # 1. Check for Bridge Trigger
                 if ";BRIDGE" in line:
                     # We need to insert the fan command at (total_time - lead_time)
@@ -134,10 +140,7 @@ class SpinUpFanBeforeBridge(Script):
                                 insertions.append((history[0][1], history[0][2], fan_cmd))
 
                 # 2. Parse Movement & Accumulate Time
-                is_move = False
                 if "G1" in line or "G0" in line:
-                    is_move = True
-                    
                     # Store the state BEFORE this move executes (Insertion Point)
                     # We append to history BEFORE updating time, because if we insert here,
                     # it runs before this move.
@@ -152,18 +155,23 @@ class SpinUpFanBeforeBridge(Script):
                     if f is not None:
                         current_f = f
 
-                    # Calculate Distance
+                    # Calculate Distance & update coordinates
                     dist = 0.0
-                    if x is not None and y is not None:
-                        dist = math.hypot(x - current_x, y - current_y)
-                        current_x = x
-                        current_y = y
-                    elif x is not None:
-                        dist = abs(x - current_x)
-                        current_x = x
-                    elif y is not None:
-                        dist = abs(y - current_y)
-                        current_y = y
+                    if is_relative:
+                        # For relative moves, specified coordinates are deltas.
+                        # If a coordinate is not specified, its delta is 0.
+                        dx = x if x is not None else 0.0
+                        dy = y if y is not None else 0.0
+                        dist = math.hypot(dx, dy)
+                        current_x += dx
+                        current_y += dy
+                    else:
+                        # For absolute moves, a missing coordinate means it doesn't change.
+                        new_x = x if x is not None else current_x
+                        new_y = y if y is not None else current_y
+                        dist = math.hypot(new_x - current_x, new_y - current_y)
+                        current_x = new_x
+                        current_y = new_y
                     
                     # Calculate Time (Minutes -> Seconds)
                     if dist > 0 and current_f > 0:
