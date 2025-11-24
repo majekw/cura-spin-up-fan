@@ -23,8 +23,8 @@ Copy script `SpinUpFanBeforeBridge.py` to `scripts` directory, then restart Cura
 In Cura, go to **Extensions -> Post Processing -> Modify G-Code**, then click 'Add a script'
 and choose 'Spin Up Fan Before Bridge'.
 
-Set 'Lead Time' to the number of seconds your fan needs to spin up.
-Set 'Bridge Fan Speed %' to the desired starting fan speed.
+- Set 'Lead Time' to the number of seconds your fan needs to spin up.
+- Set 'Bridge Fan Speed %' to the desired starting fan speed.
 
 Make sure 'Enable Bridge Settings' and 'Bridge Fan Speed' are enabled in Cura's
 'Experimental' section.
