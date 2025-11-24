@@ -14,8 +14,6 @@ to the same value as in 'Bridge Fan Speed', but it can be set to any other value
 For example you may choose a lower value for gradual spin-up, or a higher value
 to 'kick' the fan to speed quickly if you don't use a full speed on bridges.
 
-Copyright (c) 2025 Marek Wodzinski
-
 # Instalation and running
 
 Copy script `SpinUpFanBeforeBridge.py` to `scripts` directory, then restart Cura.
@@ -33,3 +31,20 @@ Make sure 'Enable Bridge Settings' and 'Bridge Fan Speed' are enabled in Cura's
 
 - It can be more generic :-)
 - Does not support relative moves
+
+# Copyright and License
+
+Copyright (c) 2025 Marek Wodzinski
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
