@@ -4,7 +4,7 @@ Script for Cura slicer to spin up the part-cooling fan before printing bridge.
 
 Cura can enable and control cooling fan when printing bridges, but more powerful
 fans don't start instantly. Often, the printer is already in the middle of printing
-the bridge by then time the fan reaches the target speed.
+the bridge by the time the fan reaches the target speed.
 
 The solution is to spin up fan **before** the hotend starts printing the bridge.
 With this script it's possible to start fan earlier by defined amount of time.
