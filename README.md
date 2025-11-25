@@ -24,8 +24,10 @@ and choose 'Spin Up Fan Before Bridge'.
 - Set 'Lead Time' to the number of seconds your fan needs to spin up.
 - Set 'Bridge Fan Speed %' to the desired starting fan speed.
 
-Make sure 'Enable Bridge Settings' and 'Bridge Fan Speed' are enabled in Cura's
-'Experimental' section.
+# Requirements
+
+- Python version 3.8+
+- 'Enable Bridge Settings' and 'Bridge Fan Speed' are enabled in Cura's 'Experimental' section.
 
 # Known limitations
 

@@ -108,6 +108,7 @@ class SpinUpFanBeforeBridge(Script):
         # Tracks the extruder's current position and state.
         current_x = 0.0
         current_y = 0.0
+        current_z = 0.0
         current_f = 3000.0  # Assumed default feedrate (mm/min).
         total_time = 0.0    # Total elapsed print time in seconds.
         is_relative = False # Tracks G90 (absolute) vs G91 (relative) mode.
@@ -180,6 +181,7 @@ class SpinUpFanBeforeBridge(Script):
                     # Parse G-code parameters
                     x = self._get_value(line, "X")
                     y = self._get_value(line, "Y")
+                    z = self._get_value(line, "Z")
                     f = self._get_value(line, "F")
 
                     # Feedrate is modal, so update it if present.
@@ -191,15 +193,19 @@ class SpinUpFanBeforeBridge(Script):
                     if is_relative:
                         dx = x if x is not None else 0.0
                         dy = y if y is not None else 0.0
-                        dist = math.hypot(dx, dy)
+                        dz = z if z is not None else 0.0
+                        dist = math.hypot(dx, dy, dz)
                         current_x += dx
                         current_y += dy
+                        current_z += dz
                     else: # Absolute positioning
                         new_x = x if x is not None else current_x
                         new_y = y if y is not None else current_y
-                        dist = math.hypot(new_x - current_x, new_y - current_y)
+                        new_z = z if z is not None else current_z
+                        dist = math.hypot(new_x - current_x, new_y - current_y, new_z - current_z)
                         current_x = new_x
                         current_y = new_y
+                        current_z = new_z
                     
                     # Convert move distance to time (seconds) and add to total.
                     if dist > 0 and current_f > 0:
